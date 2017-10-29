@@ -3,14 +3,20 @@ export enum AmoebaColorType {
   Color2
 }
 
-export enum AmoebaColorShape {
+export enum AmoebaShapeType {
   Shape1,
   Shape2
 }
 
-export enum AmoebaColorPattern {
+export enum AmoebaPatternType {
   Pattern1,
   Pattern2
+}
+
+export enum FabType {
+  Fab1,
+  Fab2,
+  Fab3
 }
 
 export class Card {
@@ -18,8 +24,9 @@ export class Card {
 
 export class AmoebaCard extends Card {
   public color: AmoebaColorType;
-  public shape: AmoebaColorShape;
-  public pattern: AmoebaColorPattern;
+  public shape: AmoebaShapeType;
+  public pattern: AmoebaPatternType;
+
 }
 
 export class AirVentCard extends Card {}

@@ -25,6 +25,7 @@
 
   @Component({})
   export default class GameComponent extends Vue {
+
     @Inject() CardService: CardService;
     @Inject() DiceService: DiceService;
 
@@ -33,7 +34,9 @@
     game: Game = this.gameService.getGame();
 
     rollDices() {
+
       this.game.rollDices()
+
     }
   }
 </script>

@@ -17,6 +17,7 @@ module.exports = {
   ],
   // add your custom rules here
   'rules': {
+    'padded-blocks': ["error", "always"],
     'space-before-function-paren': ["error", "never"],
     // allow paren-less arrow functions
     'arrow-parens': 0,

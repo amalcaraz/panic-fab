@@ -6,13 +6,12 @@ import {
   AmoebaPatternType,
   AmoebaShapeType,
   Card,
-  DirectionType,
   FabCard,
   FabType,
   MutationRoomCard,
   MutationRoomType
 } from '@/card/card.model';
-import { getCombinations, getEnumKeys } from '@/utils';
+import { getCombinations, getEnumKeys, getEnumValues } from '@/utils';
 
 export class CardService {
 
@@ -44,9 +43,9 @@ export class CardService {
   }
 
   private getAmoebaCards(): AmoebaCard[] {
-    const colors: AmoebaColorType[] = getEnumKeys(AmoebaColorType);
-    const shapes: AmoebaShapeType[] = getEnumKeys(AmoebaShapeType);
-    const patterns: AmoebaPatternType[] = getEnumKeys(AmoebaPatternType);
+    const colors: AmoebaColorType[] = getEnumValues(AmoebaColorType);
+    const shapes: AmoebaShapeType[] = getEnumValues(AmoebaShapeType);
+    const patterns: AmoebaPatternType[] = getEnumValues(AmoebaPatternType);
 
     return getCombinations(
       [colors, shapes, patterns],

@@ -1,6 +1,6 @@
 import * as shuffle from 'shuffle-array';
 import { AmoebaColorType, AmoebaPatternType, AmoebaShapeType, DirectionType, FabType } from '@/card/card.model';
-import { getCombinations, getEnumKeys } from '@/utils';
+import { getCombinations, getEnumKeys, getEnumValues } from '@/utils';
 
 export type DiceFace = any;
 
@@ -50,7 +50,7 @@ export class PatternDice extends Dice {
 
 export class FabDice extends Dice {
   constructor(protected faces: IFabDiceFace[] = getCombinations(
-    [getEnumKeys(FabType), getEnumKeys(DirectionType)],
+    [getEnumValues(FabType), getEnumValues(DirectionType)],
     (type, direction) => ({type, direction} as IFabDiceFace)
   )) {
     super(faces);

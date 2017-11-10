@@ -7,22 +7,12 @@
 <script lang="ts">
   import Vue from 'vue'
   import { Component, Prop } from 'vue-property-decorator'
-  import { Dice } from './dice'
-  import { AmoebaColorType } from '../card/card'
+  import { Dice } from './dice.model'
 
   @Component({})
   export default class DiceComponent extends Vue {
-    @Prop({
-      type: Object,
-      default: () => ({currentFace: 0})
-    })
+    @Prop()
     dice: Dice;
-
-    data() {
-      return {
-        aaa: AmoebaColorType
-      }
-    }
   }
 </script>
 

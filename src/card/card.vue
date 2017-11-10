@@ -1,19 +1,22 @@
 <template>
-  <div class="card" @click="onClick()">
-    {{message}}
+  <div v-if="card !== undefined" class="card" @click="onClick()">
+    {{card.constructor.name}}
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
+  import { Component, Prop } from 'vue-property-decorator'
+  import { Card } from './card.model'
 
+  @Component({})
   export default class CardComponent extends Vue {
-    // Initial data can be declared as instance properties
-    message: string = 'Hello!'
+    @Prop()
+    card: Card;
 
     // Component methods can be declared as instance methods
     onClick(): void {
-      window.alert(this.message)
+      window.alert('hola')
     }
   }
 </script>

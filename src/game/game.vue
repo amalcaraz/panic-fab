@@ -10,24 +10,27 @@
 
     <h3>Cards:</h3>
     <div class="game__cards">
-      <card v-for="item in 10" :key="item"></card>
+      <card v-for="(card, index) in game.cards" :key="index" :card="card"></card>
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
-  import { Component } from 'vue-property-decorator'
-  import CardComponent from '../card/card.vue'
-  import DiceComponent from '../dice/dice.vue'
-  import { Game } from './game'
+  import { Component, Inject } from 'vue-property-decorator'
+  import { Game } from './game.model'
+  import { CardService } from '../card/card.service'
+  import { DiceService } from '../dice/dice.service'
+  import { GameService } from './game.service'
 
-  @Component({
-    components: {card: CardComponent, dice: DiceComponent}
-  })
+  @Component({})
   export default class GameComponent extends Vue {
+    @Inject() CardService: CardService;
+    @Inject() DiceService: DiceService;
+
     title: string = 'Panic Fab! ';
-    game: Game = new Game();
+    gameService: GameService = new GameService(this.CardService, this.DiceService);
+    game: Game = this.gameService.getGame();
 
     rollDices() {
       this.game.rollDices()

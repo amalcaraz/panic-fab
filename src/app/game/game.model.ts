@@ -10,9 +10,9 @@ import {
   FabType,
   MutationRoomCard,
   MutationRoomType
-} from '@/card/card.model';
-import { ColorDice, Dice, FabDice, PatternDice, ShapeDice } from '@/dice/dice.model';
-import { getEnumKeys } from '@/utils';
+} from '@/app/card/card.model';
+import { ColorDice, Dice, FabDice, PatternDice, ShapeDice } from '@/app/dice/dice.model';
+import { getEnumKeys } from '@/app/utils';
 
 export class Game {
 

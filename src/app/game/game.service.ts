@@ -1,8 +1,8 @@
-import { CardService } from '@/card/card.service';
-import { DiceService } from '@/dice/dice.service';
-import { Game } from '@/game/game.model';
-import { Dice } from '@/dice/dice.model';
-import { Card } from '@/card/card.model';
+import { CardService } from '@/app/card/card.service';
+import { DiceService } from '@/app/dice/dice.service';
+import { Game } from '@/app/game/game.model';
+import { Dice } from '@/app/dice/dice.model';
+import { Card } from '@/app/card/card.model';
 
 export class GameService {
   constructor(public cardService: CardService,

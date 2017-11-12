@@ -1,6 +1,6 @@
 import * as shuffle from 'shuffle-array';
-import { AmoebaColorType, AmoebaPatternType, AmoebaShapeType, DirectionType, FabType } from '@/card/card.model';
-import { getCombinations, getEnumValues } from '@/utils';
+import { AmoebaColorType, AmoebaPatternType, AmoebaShapeType, DirectionType, FabType } from '@/app/card/card.model';
+import { getCombinations, getEnumValues } from '@/app/utils';
 
 export type DiceFace = any;
 

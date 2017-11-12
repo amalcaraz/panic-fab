@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
 import { AirVentCard, AmoebaCard, Card, FabCard, MutationRoomCard } from './card.model';
-import { IVueClassBindItemObj } from '@/utils';
+import { IVueClassBindItemObj } from '@/app/utils';
 
 @Component
 export default class CardComponent extends Vue {

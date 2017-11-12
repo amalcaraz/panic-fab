@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import App from './app.vue';
-import router from './router/index';
+import App from './app/app.component.vue';
+import router from './app/router/index';
 
 Vue.config.productionTip = false;
 

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
 import { ColorDice, Dice, FabDice, PatternDice, ShapeDice } from './dice.model';
-import { IVueClassBindItemObj } from '@/utils';
+import { IVueClassBindItemObj } from '@/app/utils';
 
 @Component({})
 export default class DiceComponent extends Vue {

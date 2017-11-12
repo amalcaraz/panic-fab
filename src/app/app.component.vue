@@ -8,11 +8,13 @@
   import { default as Vue } from 'vue'
   import { CardService } from './card/card.service'
   import { DiceService } from './dice/dice.service'
-  import CardComponent from './card/card.vue'
-  import DiceComponent from './dice/dice.vue'
+  import CardComponent from './card/card.component.vue'
+  import DiceComponent from './dice/dice.component.vue'
+  import TimerComponent from './timer/timer.component.vue'
 
   Vue.component('card', CardComponent)
   Vue.component('dice', DiceComponent)
+  Vue.component('timer', TimerComponent)
 
   export default Vue.extend({
     name: 'app',

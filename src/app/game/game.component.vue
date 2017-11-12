@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <h2>{{title}}</h2>
+    <timer></timer>
 
     <h3>Dices:</h3>
     <div class="game__dices">
@@ -33,7 +33,6 @@
     @Inject() CardService: CardService;
     @Inject() DiceService: DiceService;
 
-    title: string = 'Panic Fab! ';
     gameService: GameService = new GameService(this.CardService, this.DiceService);
     game: Game = this.gameService.getGame();
 

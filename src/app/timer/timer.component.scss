@@ -1,0 +1,23 @@
+@import "../../styles/index";
+
+.timer {
+
+  $timer-size: 100px !default;
+  $timer-color: $clr-black !default;
+  $timer-bg-color: $clr-grey-1 !default;
+  $timer-border-color: $clr-grey-2 !default;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $timer-bg-color;
+  border: 1px solid $timer-border-color;
+  color: $timer-color;
+  height: $timer-size;
+  width: $timer-size;
+  cursor: pointer;
+
+}

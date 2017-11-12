@@ -54,11 +54,11 @@
   &--color {
 
     &--0 {
-      background: linear-gradient(135deg, $clr-amoeba-1-a 50%, $clr-amoeba-1-b 50%);
+      background: linear-gradient(135deg, $clr-amoeba-0-a 50%, $clr-amoeba-0-b 50%);
     }
 
     &--1 {
-      background: linear-gradient(135deg, $clr-amoeba-2-a 50%, $clr-amoeba-2-b 50%);
+      background: linear-gradient(135deg, $clr-amoeba-1-a 50%, $clr-amoeba-1-b 50%);
     }
   }
 
@@ -76,11 +76,11 @@
   &--pattern {
 
     &--0 {
-      @include dotted-background($clr-grey-1, $clr-grey-2);
+      @include striped-background($clr-grey-1, $clr-grey-2);
     }
 
     &--1 {
-      @include striped-background($clr-grey-1, $clr-grey-2);
+      @include dotted-background($clr-grey-1, $clr-grey-2);
     }
   }
 
@@ -96,26 +96,26 @@
       background-color: black !important;
 
       &-0:after {
-        @include triangle-right-color($clr-white);
+        @include triangle-right-color($clr-black);
       }
 
       &-1:after {
-        @include triangle-right-color($clr-black);
+        @include triangle-right-color($clr-white);
       }
     }
 
     &--color {
 
       &-0 {
-        background-color: $clr-fab-1;
+        background-color: $clr-fab-0;
       }
 
       &-1 {
-        background-color: $clr-fab-2;
+        background-color: $clr-fab-1;
       }
 
       &-2 {
-        background-color: $clr-fab-3;
+        background-color: $clr-fab-2;
       }
 
     }

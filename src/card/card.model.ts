@@ -26,11 +26,12 @@ export enum DirectionType {
 
 export enum MutationRoomType {
   ColorMutationRoom,
-  ShapeMutationRoom,
-  PatternMutationRoom
+  PatternMutationRoom,
+  ShapeMutationRoom
 }
 
 export class Card {
+  public isActive: boolean = false;
 }
 
 export class AmoebaCard extends Card {

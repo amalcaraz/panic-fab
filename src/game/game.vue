@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <h2>{{title}}</h2>
 
     <h3>Dices:</h3>
@@ -9,9 +10,11 @@
     <button @click="rollDices()">Roll dices!</button>
 
     <h3>Cards:</h3>
+    <button @click="findCard()">Find the amoeba!</button>
     <div class="game__cards">
-      <card v-for="(card, index) in game.cards" :key="index" :card="card"></card>
+      <card v-for="(card, index) in game.cards" :key="index" :card="card" :class="{active: card.isActive}"></card>
     </div>
+
   </div>
 </template>
 
@@ -22,6 +25,7 @@
   import { CardService } from '../card/card.service'
   import { DiceService } from '../dice/dice.service'
   import { GameService } from './game.service'
+  import { Card } from '../card/card.model'
 
   @Component({})
   export default class GameComponent extends Vue {
@@ -36,6 +40,22 @@
     rollDices() {
 
       this.game.rollDices()
+
+    }
+
+    findCard() {
+
+      const card: Card | null = this.game.findSearchedCard();
+
+      if (card) {
+
+        card.isActive = true;
+
+      } else {
+
+        alert('Amoeba disintegrated!');
+
+      }
 
     }
   }

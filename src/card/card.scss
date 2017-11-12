@@ -26,6 +26,10 @@ $initialOffsetY: 177px;
   transition: transform .25s 0s ease-in-out, box-shadow .25s .25s linear;
   box-shadow: 0 0 10px 9999px rgba(#000, 0);
 
+  &.active {
+    border: 5px solid red;
+  }
+
   &:hover {
     transform: scale(1.25);
     transition: transform .25s 0s ease-in-out, box-shadow .25s 0s linear;

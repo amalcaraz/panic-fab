@@ -1,6 +1,6 @@
 import * as shuffle from 'shuffle-array';
 import { AmoebaColorType, AmoebaPatternType, AmoebaShapeType, DirectionType, FabType } from '@/card/card.model';
-import { getCombinations, getEnumKeys, getEnumValues } from '@/utils';
+import { getCombinations, getEnumValues } from '@/utils';
 
 export type DiceFace = any;
 
@@ -22,6 +22,9 @@ export class Dice {
 }
 
 export class ColorDice extends Dice {
+
+  public currentFace: AmoebaColorType;
+
   constructor(protected faces: AmoebaColorType[] = Array.from({length: 6}, (v, i: number) => (i % 2) === 0
     ? AmoebaColorType.Color1
     : AmoebaColorType.Color2
@@ -31,6 +34,9 @@ export class ColorDice extends Dice {
 }
 
 export class ShapeDice extends Dice {
+
+  public currentFace: AmoebaShapeType;
+
   constructor(protected faces: AmoebaShapeType[] = Array.from({length: 6}, (v, i: number) => (i % 2) === 0
     ? AmoebaShapeType.Shape1
     : AmoebaShapeType.Shape2
@@ -40,6 +46,9 @@ export class ShapeDice extends Dice {
 }
 
 export class PatternDice extends Dice {
+
+  public currentFace: AmoebaPatternType;
+
   constructor(protected faces: AmoebaPatternType[] = Array.from({length: 6}, (v, i: number) => (i % 2) === 0
     ? AmoebaPatternType.Pattern1
     : AmoebaPatternType.Pattern2
@@ -49,6 +58,9 @@ export class PatternDice extends Dice {
 }
 
 export class FabDice extends Dice {
+
+  public currentFace: IFabDiceFace;
+
   constructor(protected faces: IFabDiceFace[] = getCombinations(
     [getEnumValues(FabType), getEnumValues(DirectionType)],
     (type, direction) => ({type, direction} as IFabDiceFace)

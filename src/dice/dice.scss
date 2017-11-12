@@ -1,0 +1,124 @@
+@import "../styles/index";
+
+@mixin dotted-background($bg-color: #ccc, $dot-color: #000, $dot-size: 5px, $dot-space: 9px) {
+
+  background: linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
+  linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
+  $dot-color;
+
+  background-size: $dot-space $dot-space;
+
+}
+
+@mixin striped-background($bg-color: #ccc, $stripe-color: #000, $stripe-size: 10px, $stripe-space: 20px) {
+
+  background: linear-gradient($bg-color ($stripe-space - $stripe-size), transparent 1%) center,
+  $stripe-color;
+
+  background-size: $stripe-space $stripe-space;
+
+}
+
+@mixin triangle-right($color: #000, $width: 80px, $height: 50px) {
+
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: $height/2 0 $height/2 $width;
+  border-color: transparent transparent transparent $color;
+
+}
+
+@mixin triangle-right-color($color: #000) {
+
+  border-color: transparent transparent transparent $color;
+
+}
+
+.dice {
+
+  $dice-size: 50px;
+  $dice-bg-color: #ffffff;
+  $dice-border-color: #333;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $dice-bg-color;
+  border: 1px solid $dice-border-color;
+  color: black;
+  height: $dice-size;
+  width: $dice-size;
+  margin: 0 10px;
+
+  &--color {
+
+    &--0 {
+      background: linear-gradient(135deg, $clr-amoeba-1-a 50%, $clr-amoeba-1-b 50%);
+    }
+
+    &--1 {
+      background: linear-gradient(135deg, $clr-amoeba-2-a 50%, $clr-amoeba-2-b 50%);
+    }
+  }
+
+  &--shape {
+
+    &--0 {
+      background: url('../assets/amoeba-0.svg') $clr-black no-repeat center center / 100% 100%;
+    }
+
+    &--1 {
+      background: url('../assets/amoeba-1.svg') $clr-black no-repeat center center / 100% 100%;
+    }
+  }
+
+  &--pattern {
+
+    &--0 {
+      @include dotted-background($clr-grey-1, $clr-grey-2);
+    }
+
+    &--1 {
+      @include striped-background($clr-grey-1, $clr-grey-2);
+    }
+  }
+
+  &--fab {
+
+    &:after {
+      content: '';
+      @include triangle-right($clr-black, $dice-size*0.45, $dice-size*0.33);
+    }
+
+    &--direction {
+
+      background-color: black !important;
+
+      &-0:after {
+        @include triangle-right-color($clr-white);
+      }
+
+      &-1:after {
+        @include triangle-right-color($clr-black);
+      }
+    }
+
+    &--color {
+
+      &-0 {
+        background-color: $clr-fab-1;
+      }
+
+      &-1 {
+        background-color: $clr-fab-2;
+      }
+
+      &-2 {
+        background-color: $clr-fab-3;
+      }
+
+    }
+
+  }
+}

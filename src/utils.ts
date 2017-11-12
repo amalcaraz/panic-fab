@@ -1,3 +1,7 @@
+export interface IVueClassBindItemObj {
+  [classKey: string]: any;
+}
+
 export interface IEnum {
   [key: string]: any;
 }

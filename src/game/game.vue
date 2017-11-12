@@ -45,7 +45,7 @@
 <style lang="scss" scoped>
 
   button {
-    margin: 1em 0;
+    margin: .5em .5em;
   }
 
   .game {

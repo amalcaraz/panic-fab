@@ -1,0 +1,88 @@
+@mixin sprite-increment($initial-pos: 0, $increment: 0, $iterations: 2, $axis: 'y') {
+  @for $i from 0 to $iterations {
+    &-#{$i} {
+      background-position-#{$axis}: $initial-pos + $increment*$i;
+      @content
+    }
+  }
+}
+
+$bg-color: #ccc;
+$border-color: #333;
+$incrementX: 104px;
+$incrementY: 104px;
+$initialOffsetX: 20px;
+$initialOffsetY: 177px;
+
+.card {
+  display: block;
+  flex: 0 1 auto;
+  background: $bg-color url('../assets/panic-sprites.jpeg') no-repeat;
+  border: 1px solid $border-color;
+  color: white;
+  height: 96px;
+  width: 96px;
+  margin: .5em .5em;
+  transition: transform .25s 0s ease-in-out, box-shadow .25s .25s linear;
+  box-shadow: 0 0 10px 9999px rgba(#000, 0);
+
+  &:hover {
+    transform: scale(1.25);
+    transition: transform .25s 0s ease-in-out, box-shadow .25s 0s linear;
+    box-shadow: 0 0 10px 9999px rgba(#000, 0.8);
+  }
+
+  &--air-vent {
+    background-position: -229px -486px;
+  }
+
+  &--fab {
+    $fabX: -$initialOffsetX + -$incrementX*2;
+    $fabY: -$initialOffsetY;
+    $fabYIncrement: -$incrementY;
+
+    background-position-x: $fabX;
+
+    &--type {
+      @include sprite-increment($fabY, $fabYIncrement, 3);
+    }
+
+  }
+
+  &--mutation-room {
+    $mutationRoomX: -$initialOffsetX + -$incrementX*3;
+    $mutationRoomY: -$initialOffsetY;
+    $mutationRoomYIncrement: -$incrementY;
+
+    background-position-x: $mutationRoomX;
+
+    &--type {
+      @include sprite-increment($mutationRoomY, $mutationRoomYIncrement, 3);
+    }
+  }
+
+  &--amoeba {
+    $amoebaX: -$initialOffsetX;
+    $amoebaY: -$initialOffsetY;
+
+    background-position-x: $amoebaX;
+    background-position-y: $amoebaY;
+
+    &--color {
+      $amoebaColorXIncrement: -$incrementX;
+      @include sprite-increment($amoebaX, $amoebaColorXIncrement, 2, 'x');
+    }
+
+    $amoebaShapeYIncrement: -$incrementY*2;
+    @for $i from 0 to 2 {
+
+      &--shape-#{$i}.card--amoeba--pattern {
+        $amoebaPatternY: $amoebaY + $amoebaShapeYIncrement*$i;
+        $amoebaPatternYIncrement: -$incrementY;
+        @include sprite-increment($amoebaPatternY, $amoebaPatternYIncrement, 2, 'y');
+      }
+
+    }
+  }
+
+}

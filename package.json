@@ -11,7 +11,8 @@
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
+    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
+    "deploy": "npm run build && vue-cli-ghpages"
   },
   "dependencies": {
     "moment": "^2.19.2",
@@ -84,6 +85,7 @@
     "typescript": "^2.5.3",
     "url-loader": "^0.5.8",
     "vue-class-component": "^6.0.0",
+    "vue-cli-ghpages": "^1.0.0",
     "vue-loader": "^13.3.0",
     "vue-property-decorator": "^6.0.0",
     "vue-style-loader": "^3.0.1",

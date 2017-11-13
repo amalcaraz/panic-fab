@@ -1,7 +1,7 @@
 <template>
   <div v-if="timer"
        class="timer"
-  @click="onClick()">
+       @click="onClick()">
     {{remainingTime}}
   </div>
 </template>

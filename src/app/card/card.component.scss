@@ -23,6 +23,8 @@ $initialOffsetY: 177px;
   height: 96px;
   width: 96px;
   margin: .5em .5em;
+  cursor: pointer;
+
   transition: transform .25s 0s ease-in-out, box-shadow .25s .25s linear;
   box-shadow: 0 0 10px 9999px rgba(#000, 0);
 

@@ -1,19 +1,23 @@
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 
 import { Timer } from '@/app/timer/timer.model';
 
 @Component
 export default class TimerComponent extends Vue {
 
-  private timer: Timer = new Timer();
+  @Prop({default: () => new Timer()})
+  private timer: Timer;
 
   public get remainingTime(): string {
     return this.timer.toString();
   }
 
-  public created() {
-    this.timer.start(5);
+  @Watch('timer.timeIsUp')
+  public onTimeIsUp(val: boolean, oldVal: boolean) {
+    if (val === true) {
+      this.$emit('timeIsUp', val);
+    }
   }
 
   public onClick() {

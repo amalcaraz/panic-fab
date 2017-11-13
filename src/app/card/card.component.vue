@@ -1,7 +1,7 @@
 <template>
   <div v-if="card" class="card"
        :class="_class"
-       @click="onClick()">
+       @click="onClick(card)">
   </div>
 </template>
 

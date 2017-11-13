@@ -1,3 +1,5 @@
+import * as shuffle from 'shuffle-array';
+
 import {
   AirVentCard,
   AmoebaCard,
@@ -13,17 +15,36 @@ import {
 } from '@/app/card/card.model';
 import { ColorDice, Dice, FabDice, PatternDice, ShapeDice } from '@/app/dice/dice.model';
 import { getEnumKeys } from '@/app/utils';
+import { Timer } from '@/app/timer/timer.model';
+
+export enum GameState {
+  Finished,
+  Paused,
+  InProgress
+}
 
 export class Game {
 
   private static maxMutations: number = getEnumKeys(MutationRoomType).length + 1;
+  private static gameTime: number = 60;
+
+  public cards: Card[];
+  public dices: Dice[];
+  public timer: Timer;
+  public state: GameState = GameState.Finished;
+
   private fabDice: FabDice;
   private colorDice: ColorDice;
   private shapeDice: ShapeDice;
   private patternDice: PatternDice;
 
-  constructor(public cards: Card[],
-              public dices: Dice[]) {
+  constructor(cards: Card[],
+              dices: Dice[],
+              timer: Timer) {
+
+    this.cards = cards;
+    this.dices = dices;
+    this.timer = timer;
 
     this.fabDice = this.dices.find((dice: Dice) => dice instanceof FabDice) as FabDice;
     this.colorDice = this.dices.find((dice: Dice) => dice instanceof ColorDice) as ColorDice;
@@ -32,11 +53,54 @@ export class Game {
 
   }
 
+  public start() {
+
+    this.rollDices();
+    this.shuffleCards();
+    this.timer.start(Game.gameTime);
+    this.state = GameState.InProgress;
+
+  }
+
+  public pause() {
+
+    this.timer.stop();
+    this.state = GameState.Paused;
+
+  }
+
+  public resume() {
+
+    this.timer.resume();
+    this.state = GameState.InProgress;
+
+  }
+
+  public finish(winner: boolean) {
+
+    this.pause();
+    this.state = GameState.Finished;
+
+    alert(winner ? 'Winner!' : 'Looser!');
+
+  }
+
   public rollDices() {
     this.dices.forEach((dice: Dice) => dice.roll());
   }
 
+  public shuffleCards() {
+    shuffle(this.cards);
+  }
+
+  public checkWinerCard(card: Card | null): boolean {
+    const winerCard: Card | null = this.findSearchedCard();
+    return card === winerCard;
+  }
+
   public findSearchedCard(): Card | null {
+
+    this.resetSearchedCard();
 
     const startFabType: FabType = this.fabDice.currentFace.type;
     let searchedColor: AmoebaColorType = this.colorDice.currentFace;
@@ -93,8 +157,16 @@ export class Game {
 
     }
 
+    if (currentCard) {
+      currentCard.isActive = true;
+    }
+
     return currentCard;
 
+  }
+
+  public resetSearchedCard() {
+    this.cards.forEach((card: Card) => card.isActive = false);
   }
 
   private isSearchedCard(card: Card | null,
@@ -102,16 +174,12 @@ export class Game {
                          searchedShape: AmoebaShapeType,
                          searchedPattern: AmoebaPatternType): boolean {
 
-    let found: boolean = false;
-
-    found = card === null || (
+    return card === null || (
       card instanceof AmoebaCard
       && card.color === searchedColor
       && card.shape === searchedShape
       && card.pattern === searchedPattern
     );
-
-    return found;
 
   }
 

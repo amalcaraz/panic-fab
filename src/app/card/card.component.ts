@@ -39,9 +39,8 @@ export default class CardComponent extends Vue {
 
   }
 
-  public onClick(): void {
-
-    window.alert('hola');
-
+  public onClick(card: Card) {
+    this.$emit('click', card);
   }
+
 }

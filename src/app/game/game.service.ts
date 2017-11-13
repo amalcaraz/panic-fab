@@ -3,6 +3,7 @@ import { DiceService } from '@/app/dice/dice.service';
 import { Game } from '@/app/game/game.model';
 import { Dice } from '@/app/dice/dice.model';
 import { Card } from '@/app/card/card.model';
+import { Timer } from '@/app/timer/timer.model';
 
 export class GameService {
   constructor(public cardService: CardService,
@@ -12,7 +13,8 @@ export class GameService {
   public getGame(): Game {
     return new Game(
       this.getCards(),
-      this.getDices()
+      this.getDices(),
+      new Timer()
     );
   }
 

@@ -14,6 +14,10 @@ export class Timer {
   private lastMoment: Moment;
   private goalMoment: Moment;
 
+  public init(timeInSeconds: number) {
+    this.countdownSeconds = timeInSeconds;
+  }
+
   public start(timeInSeconds: number) {
     this.countdownSeconds = timeInSeconds;
     this.reset();

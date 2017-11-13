@@ -11,10 +11,12 @@
   import CardComponent from './card/card.component.vue'
   import DiceComponent from './dice/dice.component.vue'
   import TimerComponent from './timer/timer.component.vue'
+  import MenuComponent from './menu/menu.component.vue'
 
   Vue.component('card', CardComponent)
   Vue.component('dice', DiceComponent)
   Vue.component('timer', TimerComponent)
+  Vue.component('game-menu', MenuComponent)
 
   export default Vue.extend({
     name: 'app',

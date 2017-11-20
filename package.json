@@ -15,8 +15,10 @@
     "deploy": "npm run build && vue-cli-ghpages"
   },
   "dependencies": {
+    "@types/socket.io-client": "^1.4.32",
     "moment": "^2.19.2",
     "shuffle-array": "^1.0.1",
+    "socket.io-client": "^2.0.4",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },

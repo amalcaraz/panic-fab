@@ -40,6 +40,7 @@
   import { GameService } from './game.service'
   import { Card } from '../card/card.model'
   import { Timer } from '../timer/timer.model'
+  import io from 'socket.io-client'
 
   @Component
   export default class GameComponent extends Vue {
@@ -50,12 +51,20 @@
     public GameState = GameState;
     public gameService: GameService = new GameService(this.CardService, this.DiceService);
     public game: Game = this.gameService.getGame();
+
     // public showDices: boolean = false;
 
 
     onNewGame() {
 
       this.game.start();
+
+      const socket: SocketIOClient.Socket = io('http://localhost:3000');
+
+      socket.on('this', (data: any) => {
+        console.log(data);
+        socket.emit('my other event', {my: 'data'});
+      });
 
     }
 

@@ -1,22 +1,32 @@
 import 'webrtc-adapter';
 import io from 'socket.io-client';
 
-export function trace(...arg: any[]) {
-  const now = (window.performance.now() / 1000).toFixed(3);
-  console.log(now + ': ', arg);
-}
+import { trace } from '@/app/utils';
+import { DataChannel } from '@/app/web-rtc/data-channel.model';
 
 export class WebRtcService {
 
   private pc: RTCPeerConnection;
-  private dataChannel: RTCDataChannel;
+  private dataChannels: DataChannel[];
   private socket: SocketIOClient.Socket;
 
-  public initDataTransmition(): void {
+  constructor() {
 
     this.initSignAlignStuff();
-    this.createDataChanel();
+
+  }
+
+  public initDataTransmission(from: string, to: string): void {
+
     this.createOffer();
+    this.createDataChanel(`${from}-${to}`);
+
+  }
+
+  public destroy() {
+
+    this.dataChannels.forEach((dc: DataChannel) => dc.destroy());
+    this.pc.close();
 
   }
 
@@ -31,7 +41,10 @@ export class WebRtcService {
     trace('Created local peer connection object localConnection');
 
     // TODO: Remove hardcoded host and port and put it in a config file
-    this.socket = io('http://localhost:3000');
+    this.socket = io.connect('http://0.0.0.0:3000/signaling');
+    this.socket.on('connect', () => {
+      this.socket.emit('login', `Alias-${Math.random() * 100}`);
+    });
     trace('Created socket connection');
 
     // Remote Ice candidate received
@@ -42,6 +55,9 @@ export class WebRtcService {
 
     // SessionDescription received
     this.socket.on('sdp', (data: RTCSessionDescription) => this.onRemoteSessionDescription(data));
+
+    // Remote DataChannel received
+    this.pc.ondatachannel = (dataChanel: RTCDataChannelEvent) => this.onRemoteDataChannel(dataChanel);
 
   }
 
@@ -77,33 +93,23 @@ export class WebRtcService {
 
   // DataChannels
 
-  private createDataChanel(id: string = 'defaultDataChannel'): void {
+  private createDataChanel(id: string): void {
 
-    const config: RTCDataChannelInit = {};
-    this.dataChannel = this.pc.createDataChannel(id, config);
-    trace('Created send data channel');
-
-    this.dataChannel.onopen = () => this.onDataChannelOpen();
-    this.dataChannel.onclose = () => this.onDataChannelClose();
-    this.dataChannel.onerror = (error: ErrorEvent) => this.onDataChannelError(error);
-    this.dataChannel.onmessage = (message: MessageEvent) => this.onDataChannelMessage(message);
+    const dataChanel: DataChannel = new DataChannel(this.pc, id);
+    this.dataChannels.push(dataChanel);
 
   }
 
-  private onDataChannelError(error: ErrorEvent) {
-    trace("Data Channel Error:", error);
+  private removeDataChanel(id: string): void {
+
+    this.dataChannels = this.dataChannels.filter((dc: DataChannel) => dc.id !== id);
+
   }
 
-  private onDataChannelMessage(event: MessageEvent) {
-    trace("Got Data Channel Message:", event.data);
-  }
+  private onRemoteDataChannel(dataChanel: RTCDataChannelEvent) {
 
-  private onDataChannelOpen() {
-    this.dataChannel.send("Hello World!");
-  }
+    trace("Data Channel Error:", dataChanel);
 
-  private onDataChannelClose() {
-    trace("The Data Channel is Closed");
   }
 
   // SessionDescriptions

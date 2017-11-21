@@ -59,7 +59,7 @@
     onNewGame() {
 
       this.game.start();
-      this.webRTC.initDataTransmition();
+      this.webRTC.initDataTransmission();
 
     }
 

@@ -1,4 +1,4 @@
-@import "../../styles/index";
+@import "../../styles/config/index";
 
 .menu {
 
@@ -6,6 +6,7 @@
   $menu-color: $clr-white !default;
   $menu-bg-color: $clr-black !default;
   $menu-border-color: $clr-grey-2 !default;
+  $menu-vertical-separation: 1rem !default;
 
   position: fixed;
   top: 0;
@@ -19,6 +20,12 @@
   color: $menu-color;
   height: $menu-size;
   width: $menu-size;
+  padding: $menu-vertical-separation 0 ;
+
+  h1 {
+    font-size: 4rem;
+    padding-bottom: $menu-vertical-separation;
+  }
 
   &__list {
     display: flex;
@@ -26,17 +33,9 @@
     align-items: center;
   }
 
-  ul {
-    margin: 0;
-    padding: 0;
-  }
-
-  li {
-    list-style: none;
-  }
-
   button {
     cursor: pointer;
+    color: $clr-black;
   }
 
 }

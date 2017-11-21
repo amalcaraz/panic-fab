@@ -1,8 +1,11 @@
 <template>
-  <div>
+  <div class="game">
 
-    <game-menu v-if="game.state === GameState.Finished"
-               @newGame="onNewGame"></game-menu>
+    <!--<game-menu v-if="game.state === GameState.Finished"
+               @newGame="onNewGame"></game-menu>-->
+
+    <peer-list :peers="webRTC.peerList.peerList"
+               @selectedPeer="onSelectedPeer"></peer-list>
 
     <div v-if="game.state === GameState.InProgress">
 
@@ -23,7 +26,7 @@
               :key="index"
               :card="card"
               :class="{active: card.isActive}"
-              @click="onClick(card)"></card>
+              @click="onCardClick(card)"></card>
       </div>
 
     </div>
@@ -41,6 +44,7 @@
   import { Card } from '../card/card.model'
   import { Timer } from '../timer/timer.model'
   import { WebRtcService } from "../web-rtc/web-rtc.service";
+  import { IPeerData } from "../peer-list/peer-list.model";
 
   @Component
   export default class GameComponent extends Vue {
@@ -51,7 +55,7 @@
     public GameState = GameState;
     public gameService: GameService = new GameService(this.CardService, this.DiceService);
     public game: Game = this.gameService.getGame();
-    public webRTC: WebRtcService = new WebRtcService();
+    public webRTC: WebRtcService = new WebRtcService(`Alias-${Math.random() * 100}`);
 
     // public showDices: boolean = false;
 
@@ -59,7 +63,6 @@
     onNewGame() {
 
       this.game.start();
-      this.webRTC.initDataTransmition();
 
     }
 
@@ -69,7 +72,13 @@
 
     }
 
-    onClick(card: Card) {
+    onSelectedPeer(peer: IPeerData) {
+
+      this.webRTC.initDataTransmission(peer)
+
+    }
+
+    onCardClick(card: Card) {
 
       this.game.finish(this.game.checkWinerCard(card));
 
@@ -112,13 +121,18 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  @import '../../styles/index';
+  @import '../../styles/config/index';
+
+  $game-padding: 2rem !default;
 
   button {
     margin: .5em .5em;
   }
 
   .game {
+
+    padding: $game-padding 0 $game-padding 200px;
+
     &__cards {
       display: flex;
       flex-wrap: wrap;

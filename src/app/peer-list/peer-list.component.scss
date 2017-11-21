@@ -1,0 +1,32 @@
+@import '../../styles/config/index';
+
+button {
+  margin: .5em .5em;
+}
+
+.peer-list {
+
+  position: fixed;
+  top: 300px;
+  left: 0;
+  width: 200px;
+  background-color: $clr-grey-1;
+  border: 1px solid $clr-grey-2;
+
+  &__item {
+    padding: 1rem .5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid $clr-grey-1;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken($clr-grey-1, 10%);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}

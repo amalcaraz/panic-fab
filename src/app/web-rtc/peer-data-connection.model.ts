@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import { trace } from '@/app/utils';
 import { DataChannel, IDataChannelClass } from '@/app/web-rtc/data-channel.model';
 import { IPeerData, PeerList } from '@/app/web-rtc/peer-list.model';
+// import { EventEmitter } from 'events';
 
 export interface ISessionDescriptionIncomingEvent {
   from: IPeerData;
@@ -15,7 +16,7 @@ export interface ISessionDescriptionOutgoingEvent {
   description: RTCSessionDescription;
 }
 
-export class WebRtcService {
+export class PeerDataConnection {
 
   public peerList: PeerList;
 
@@ -28,7 +29,6 @@ export class WebRtcService {
               private CustomDataChannel: IDataChannelClass = DataChannel) {
 
     this.initSignAlignStuff();
-
   }
 
   public async initDataTransmission(to: IPeerData): Promise<void> {

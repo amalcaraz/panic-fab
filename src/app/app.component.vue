@@ -12,11 +12,13 @@
   import DiceComponent from './dice/dice.component.vue'
   import TimerComponent from './timer/timer.component.vue'
   import MenuComponent from './menu/menu.component.vue'
+  import PeerList from './peer-list/peer-list.component.vue'
 
-  Vue.component('card', CardComponent)
-  Vue.component('dice', DiceComponent)
-  Vue.component('timer', TimerComponent)
-  Vue.component('game-menu', MenuComponent)
+  Vue.component('card', CardComponent);
+  Vue.component('dice', DiceComponent);
+  Vue.component('timer', TimerComponent);
+  Vue.component('game-menu', MenuComponent);
+  Vue.component('peer-list', PeerList);
 
   export default Vue.extend({
     name: 'app',
@@ -27,13 +29,14 @@
   })
 </script>
 
-<style>
+<style lang="scss">
+  @import "../styles/index";
+
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
+    color: $body-color;
   }
 </style>

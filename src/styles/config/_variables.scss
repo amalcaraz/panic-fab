@@ -1,3 +1,4 @@
+
 $clr-amoeba-1-a: #F6003A;
 $clr-amoeba-1-b: #F18700;
 $clr-amoeba-0-a: #72008F;
@@ -12,3 +13,11 @@ $clr-white: #FFF;
 
 $clr-grey-1: #DDDDDD;
 $clr-grey-2: #333333;
+
+$body-color: $clr-grey-2;
+
+$font-size-xs: 0.625rem; // 10px;
+$font-size-sm: 0.75rem; // 12px;
+$font-size-md: 0.875rem; // 14px;
+$font-size-lg: 1rem; // 16px;
+$font-size-base: $font-size-md;

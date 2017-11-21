@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@types/socket.io-client": "^1.4.32",
+    "css-reset-and-normalize-sass": "^0.1.2",
+    "events": "^1.1.1",
     "moment": "^2.19.2",
     "shuffle-array": "^1.0.1",
     "socket.io-client": "^2.0.4",

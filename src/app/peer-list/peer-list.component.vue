@@ -1,6 +1,9 @@
 <template>
   <div class="peer-list">
-    <ul>
+    <span class="peer-list__me">
+      {{me.alias}}
+    </span>
+    <ul v-if="peers.length > 0">
       <li class="peer-list__item"
           v-for="peer in peers"
           :key="peer.alias"

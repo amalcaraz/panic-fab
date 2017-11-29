@@ -7,6 +7,8 @@ declare module "@" {
 }
 
 declare module "config" {
+  const conf: any;
+  export default conf;
 }
 
 declare interface IConstructor<T> {
@@ -14,5 +16,8 @@ declare interface IConstructor<T> {
 }
 
 declare module 'events' {
-  export class EventEmitter {}
+  export class EventEmitter {
+    public emit(event: string, ...args: any[]): void;
+    public on(event: string, fn: (event: any) => void): void;
+  }
 }

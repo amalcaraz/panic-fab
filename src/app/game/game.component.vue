@@ -4,7 +4,8 @@
     <!--<game-menu v-if="game.state === GameState.Finished"
                @newGame="onNewGame"></game-menu>-->
 
-    <peer-list :peers="webRTC.peerList.peerList"
+    <peer-list :me="webRTC.peerList.me"
+               :peers="webRTC.peerList.peers"
                @selectedPeer="onSelectedPeer"></peer-list>
 
     <div v-if="game.state === GameState.InProgress">

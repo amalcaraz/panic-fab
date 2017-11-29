@@ -6,6 +6,9 @@ import { IPeerData } from "./peer-list.model";
 export default class PeerListComponent extends Vue {
 
   @Prop()
+  private me: IPeerData;
+
+  @Prop()
   private peers: IPeerData[];
 
   public onSelectedPeer(peer: IPeerData) {

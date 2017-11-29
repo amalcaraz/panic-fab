@@ -1,1 +1,8 @@
 env: #string
+
+signalignSocket:
+  host: http://localhost
+  port: 3000
+  namespace: /signaling
+  ICEServers:
+    - stun:stun.l.google.com:19302

@@ -13,20 +13,28 @@ button {
   background-color: $clr-grey-1;
   border: 1px solid $clr-grey-2;
 
+  &__me,
   &__item {
+    display: block;
     padding: 1rem .5rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    border-bottom: 1px solid $clr-grey-1;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__me {
+    border-bottom: 1px solid $clr-black;
+  }
+
+  &__item {
     cursor: pointer;
 
     &:hover {
       background-color: darken($clr-grey-1, 10%);
-    }
-
-    &:last-child {
-      border-bottom: none;
     }
   }
 }

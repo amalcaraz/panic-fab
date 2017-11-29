@@ -13,12 +13,15 @@
   import TimerComponent from './timer/timer.component.vue'
   import MenuComponent from './menu/menu.component.vue'
   import PeerList from './peer-list/peer-list.component.vue'
+  import config from 'config'
 
   Vue.component('card', CardComponent);
   Vue.component('dice', DiceComponent);
   Vue.component('timer', TimerComponent);
   Vue.component('game-menu', MenuComponent);
   Vue.component('peer-list', PeerList);
+
+  console.log(config);
 
   export default Vue.extend({
     name: 'app',

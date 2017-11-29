@@ -6,6 +6,9 @@ declare module "*.vue" {
 declare module "@" {
 }
 
+declare module "config" {
+}
+
 declare interface IConstructor<T> {
   new(...args: any[]): T;
 }

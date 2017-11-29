@@ -8,6 +8,8 @@ test/unit/coverage
 test/e2e/reports
 selenium-debug.log
 
+config/config.json
+
 # Editor directories and files
 .idea
 .vscode

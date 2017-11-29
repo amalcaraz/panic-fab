@@ -1,7 +1,15 @@
 'use strict'
 const path = require('path')
-const config = require('../config')
+const config = require('./config')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+// Required to load Config
+const nodeConfig = require('config')
+const fs = require('fs')
+
+function pathFromRoot(dir) {
+  return path.join(__dirname, '..', dir)
+}
 
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -22,7 +30,7 @@ exports.cssLoaders = function (options) {
   }
 
   // generate loader string to be used with extract text plugin
-  function generateLoaders (loader, loaderOptions) {
+  function generateLoaders(loader, loaderOptions) {
     const loaders = [cssLoader]
     if (loader) {
       loaders.push({
@@ -50,7 +58,7 @@ exports.cssLoaders = function (options) {
     css: generateLoaders(),
     postcss: generateLoaders(),
     less: generateLoaders('less'),
-    sass: generateLoaders('sass', { indentedSyntax: true }),
+    sass: generateLoaders('sass', {indentedSyntax: true}),
     scss: generateLoaders('sass'),
     stylus: generateLoaders('stylus'),
     styl: generateLoaders('stylus')
@@ -69,4 +77,15 @@ exports.styleLoaders = function (options) {
     })
   }
   return output
+}
+
+exports.pathFromRoot = pathFromRoot
+
+exports.loadConfig = function () {
+
+// This will take the config based on the current NODE_ENV and save it to 'build/client.json'
+// Note: If '/build' does not exist, this command will error; alternatively, write to '/config'.
+// The webpack alias below will then build that file into the client build.
+  fs.writeFileSync(pathFromRoot('config/config.json'), JSON.stringify(nodeConfig))
+
 }

@@ -1,12 +1,14 @@
 'use strict'
 const path = require('path')
 const utils = require('./utils')
-const config = require('../config')
+const config = require('./config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
+
+utils.loadConfig();
 
 module.exports = {
   entry: {
@@ -23,6 +25,7 @@ module.exports = {
     extensions: ['.ts', '.js', '.vue', '.json'],
     alias: {
       '@': resolve('src'),
+       'config': resolve('config/config.json')
     }
   },
   module: {
@@ -36,6 +39,11 @@ module.exports = {
           formatter: require('eslint-friendly-formatter')
         }
       },*/
+      {
+        test: /\.ts$/,
+        loader: 'tslint-loader',
+        enforce: 'pre'
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',

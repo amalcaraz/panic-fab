@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
 import config from 'config';
-import { ISignalingSocketConf } from '@/app/core/signaling-channel';
+import { ISignalingSocketConf } from '@/app/core/peer-connection/signaling-channel';
 
 export interface ISignalingSocketConf {
   host: string;
@@ -15,12 +15,6 @@ export class SignalingChannel {
   private socketConf: ISignalingSocketConf;
 
   constructor() {
-
-    this.init();
-
-  }
-
-  public init() {
 
     if (!this.socket) {
 

@@ -1,39 +1,50 @@
-import { IPeerData, PeerList } from '@/app/core/peer-list';
-import { SignalingChannel } from '@/app/core/signaling-channel';
-import { SingletonFactory } from '@/app/core/singleton';
-import { PeerConnection, PeerConnectionType } from '@/app/core/peer-connection';
+import { IPeerData, PeerList } from '@/app/core/peer-connection/peer-list';
+import { SignalingChannel } from '@/app/core/peer-connection/signaling-channel';
+import { SingletonFactory } from '@/app/core/peer-connection/singleton';
+import { PeerConnectionService } from '@/app/core/peer-connection/peer-conection.service';
+import { DataChannel } from '@/app/core/peer-connection/data-channel';
+import { PeerConnection } from '@/app/core/peer-connection/peer-connection';
+import { EventEmitter } from 'events';
 
-export class WebRtcService {
+export class WebRtcService extends EventEmitter {
 
   public peerList: PeerList;
   private signalingChannel: SignalingChannel;
-  private peerConnections: PeerConnection[] = [];
+  private peerConnectionService: PeerConnectionService;
 
   constructor(public alias: string) {
 
+    super();
+
     this.signalingChannel = SingletonFactory.getInstance(SignalingChannel);
+    this.peerConnectionService = SingletonFactory.getInstance(PeerConnectionService, this.signalingChannel);
     this.peerList = SingletonFactory.getInstance(PeerList, this.signalingChannel);
 
-    this.peerList.login(alias);
+    this.peerList
+      .login(alias)
+      .then(() => {
 
-    const newPeerConnection = new PeerConnection(PeerConnectionType.Data, this.signalingChannel);
-    this.peerConnections.push(newPeerConnection);
-    newPeerConnection.onDataConnection();
+        this.peerConnectionService.init();
+        this.peerConnectionService.on('connection', (peerConnection: PeerConnection) => {
+
+          peerConnection.on('data', (dataChannel: DataChannel) => this.emit('data', dataChannel));
+
+        });
+
+      });
 
   }
 
-  public async initDataTransmission(to: IPeerData): Promise<void> {
+  public async initDataTransmission(to: IPeerData): Promise<DataChannel> {
 
-    const newPeerConnection = new PeerConnection(PeerConnectionType.Data, this.signalingChannel);
-    this.peerConnections.push(newPeerConnection);
-    newPeerConnection.initDataConnection(to);
+    return this.peerConnectionService.initDataConnection(to);
 
   }
 
   public destroy() {
 
     this.peerList.logout();
-    this.peerConnections.forEach((pc: PeerConnection) => pc.destroy());
+    this.peerConnectionService.destroy();
 
   }
 

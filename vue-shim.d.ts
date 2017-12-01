@@ -16,8 +16,8 @@ declare interface IConstructor<T> {
 }
 
 declare module 'events' {
-  export class EventEmitter {
-    public emit(event: string, ...args: any[]): void;
-    public on(event: string, fn: (event: any) => void): void;
+  export class EventEmitter<T = string, P = any> {
+    public emit(event: T, ...args: P[]): void;
+    public on(event: T, fn: (event: P) => any | void): void;
   }
 }

@@ -1,9 +1,8 @@
-import { SignalingChannel } from '@/app/core/signaling-channel';
+import { SignalingChannel } from '@/app/core/peer-connection/signaling-channel';
 import { EventEmitter } from 'events';
 
 export interface IPeerData {
-  socketId?: string;
-  alias?: string;
+  alias: string;
   rooms?: string[];
 }
 
@@ -12,7 +11,9 @@ export type IPeerOutputEvents = 'peer-list-updated';
 export class PeerList {
 
   public peers: IPeerData[] = [];
-  private me: IPeerData = {};
+  private me: IPeerData = {
+    alias: `peer-${Math.floor(Math.random() * 9999)}`
+  };
   private output: EventEmitter = new EventEmitter();
 
   constructor(private signalingChannel: SignalingChannel) {
@@ -67,7 +68,6 @@ export class PeerList {
 
   private onPeerList(peerList: IPeerData[]) {
 
-    debugger
     this.peers = peerList.filter((peer: IPeerData) => peer.alias !== this.me.alias);
     this.outputPeerListUpdate();
 

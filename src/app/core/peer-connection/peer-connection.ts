@@ -1,14 +1,16 @@
 import 'webrtc-adapter';
 
 import config from 'config';
-import { SignalingChannel } from '@/app/core/signaling-channel';
+import { SignalingChannel } from '@/app/core/peer-connection/signaling-channel';
 import { trace } from '@/app/utils';
-import { IPeerData } from '@/app/core/peer-list';
-import { DataChannel, IDataChannelClass } from '@/app/core/data-channel';
+import { IPeerData } from '@/app/core/peer-connection/peer-list';
+import { DataChannel, IDataChannelClass } from '@/app/core/peer-connection/data-channel';
+import { EventEmitter } from 'events';
 
 export enum PeerConnectionType {
   Data,
-  Video
+  Media,
+  DataAndMedia
 }
 
 export interface IICECandidateIncomingEvent {
@@ -31,21 +33,19 @@ export interface ISessionDescriptionOutgoingEvent {
   description: RTCSessionDescription;
 }
 
-export class PeerConnection {
+export type PeerConnectionEventType = 'data' | 'media';
+export type PeerConnectionEventPayload = DataChannel;
+
+export class PeerConnection extends EventEmitter<PeerConnectionEventType, PeerConnectionEventPayload> {
 
   private pc: RTCPeerConnection;
   private dataChannels: DataChannel[] = [];
   private pendingRemoteIceCandidates: RTCIceCandidateInit[] = [];
 
-  constructor(private type: PeerConnectionType,
-              private signalingChannel: SignalingChannel,
+  constructor(private signalingChannel: SignalingChannel,
               private CustomDataChannel: IDataChannelClass = DataChannel) {
 
-    this.init();
-
-  }
-
-  public init(): void {
+    super();
 
     const rtcConfig: RTCConfiguration = {
       iceServers: config.signalignSocket.ICEServers.map((iceServer: string) => ({urls: iceServer}))
@@ -53,32 +53,37 @@ export class PeerConnection {
     this.pc = new RTCPeerConnection(rtcConfig);
     trace('Created local peer connection object localConnection');
 
-  }
-
-  public onDataConnection(fn?: (dataChannel: DataChannel) => any) {
-
     // Remote Ice candidate received
     this.signalingChannel.on('ice-candidate', (data: IICECandidateIncomingEvent) => this.onRemoteIceCandidate(data));
 
-    // SessionDescription received
-    this.signalingChannel.on('sdp', (data: ISessionDescriptionIncomingEvent) => this.onRemoteSessionDescription(data));
+  }
 
-    if (this.type === PeerConnectionType.Data) {
+  public async onRemoteSessionDescription(sdpEvent: ISessionDescriptionIncomingEvent): Promise<void> {
+
+    trace('Remote SPD obtained', sdpEvent.from);
+    // trace('Remote SPD obtained: \n' + (sdpEvent ? sdpEvent : '(null)'));
+
+    await this.setRemoteDescription(sdpEvent.description);
+
+    if (sdpEvent.description.type === 'offer') {
 
       // Remote DataChannel received
-      this.pc.ondatachannel = (dataChanel: RTCDataChannelEvent) => this.onRemoteDataChannel(dataChanel, fn);
+      this.pc.ondatachannel = (dataChanelEvent: RTCDataChannelEvent) => this.onRemoteDataChannel(dataChanelEvent);
+
+      return await this.createAnswer(sdpEvent.from);
+
     }
 
   }
 
-  public async initDataConnection(to: IPeerData): Promise<void> {
+  public async initConnection(to: IPeerData, type = PeerConnectionType.Data, id: string = 'game'): Promise<void> {
 
-    this.onDataConnection();
+    if (type === PeerConnectionType.Data || type === PeerConnectionType.DataAndMedia) {
 
-    // Local Ice candidate discovered
-    this.pc.onicecandidate = (data: RTCPeerConnectionIceEvent) => this.onIceCandidate(data, to);
+      this.createDataChannel(id);
 
-    this.createDataChannel(`${to.alias}`);
+    }
+
     return this.createOffer(to);
 
   }
@@ -126,7 +131,7 @@ export class PeerConnection {
 
   }
 
-  private onIceCandidate(event: RTCPeerConnectionIceEvent, to: IPeerData) {
+  private sendIceCandidate(event: RTCPeerConnectionIceEvent, to: IPeerData) {
 
     if (event.candidate) {
 
@@ -151,6 +156,7 @@ export class PeerConnection {
 
     const dataChanel: DataChannel = this.CustomDataChannel.createDataChannel(undefined, id, this.pc);
     this.dataChannels.push(dataChanel);
+    this.emit('data', dataChanel);
 
   }
 
@@ -173,31 +179,18 @@ export class PeerConnection {
 
   }
 
-  private onRemoteDataChannel(dataChanelEvent: RTCDataChannelEvent, fn: any) {
+  private onRemoteDataChannel(dataChanelEvent: RTCDataChannelEvent): DataChannel {
 
-    const newDataChannel = this.CustomDataChannel.createDataChannel(dataChanelEvent.channel);
+    const newDataChannel: DataChannel = this.CustomDataChannel.createDataChannel(dataChanelEvent.channel);
     this.dataChannels.push(newDataChannel);
     trace("Remote data channel added:", dataChanelEvent);
-    fn(newDataChannel);
+
+    this.emit('data', newDataChannel);
+    return newDataChannel;
 
   }
 
   // SessionDescriptions
-
-  private async onRemoteSessionDescription(sdpEvent: ISessionDescriptionIncomingEvent): Promise<void> {
-
-    trace('Remote SPD obtained', sdpEvent.from);
-    // trace('Remote SPD obtained: \n' + (sdpEvent ? sdpEvent : '(null)'));
-
-    await this.setRemoteDescription(sdpEvent.description);
-
-    if (sdpEvent.description.type === 'offer') {
-
-      return await this.createAnswer(sdpEvent.from);
-
-    }
-
-  }
 
   private isRemoteSessionDescriptionSet(): boolean {
     return !!(this.pc.remoteDescription && this.pc.remoteDescription.sdp);
@@ -206,18 +199,21 @@ export class PeerConnection {
   private async createAnswer(to: IPeerData): Promise<any> {
 
     const description: RTCSessionDescriptionInit = await this.pc.createAnswer() as RTCSessionDescriptionInit;
-    return await this.setLocalDescription(description, to);
+    return await this.setLocalDescriptionAndSendIt(description, to);
 
   }
 
   private async createOffer(to: IPeerData): Promise<void> {
 
     const description: RTCSessionDescriptionInit = await this.pc.createOffer() as RTCSessionDescriptionInit;
-    return await this.setLocalDescription(description, to);
+    return await this.setLocalDescriptionAndSendIt(description, to);
 
   }
 
-  private async setLocalDescription(description: RTCSessionDescriptionInit, to: IPeerData): Promise<void> {
+  private async setLocalDescriptionAndSendIt(description: RTCSessionDescriptionInit, to: IPeerData): Promise<void> {
+
+    // Local Ice candidate discovered
+    this.pc.onicecandidate = (data: RTCPeerConnectionIceEvent) => this.sendIceCandidate(data, to);
 
     await this.pc.setLocalDescription(new RTCSessionDescription(description));
     trace('setLocalDescription: \n' + description.sdp);

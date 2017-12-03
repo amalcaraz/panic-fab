@@ -57,7 +57,7 @@ export class DataChannel extends EventEmitter<DataChannelEventType, DataChannelE
   private onDataChannelMessage(event: MessageEvent) {
 
     trace("Got Data Channel Message:", event.data);
-    this.emit('message');
+    this.emit('message', event.data);
 
   }
 

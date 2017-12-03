@@ -8,7 +8,7 @@
                :peers="webRTC.peerList.peers"
                @selectedPeer="onSelectedPeer"></peer-list>
 
-    <div>
+    <div v-if="thereIsDataChannel">
       <h5>Chat P2P:</h5>
       <p v-for="message in messages">
         {{message}}
@@ -69,7 +69,7 @@
     public messages: string[] = [];
     public myMessage: string = '';
 
-    public currentDataChannel: DataChannel | undefined;
+    public currentDataChannel: DataChannel | null = null;
 
     // public showDices: boolean = false;
 
@@ -81,7 +81,12 @@
     onNewGame() {
 
       this.game.start();
-      this.webRTC.on('data', this.onDataChannel.bind(this))
+
+    }
+
+    created() {
+
+      this.webRTC.on('data', this.onDataChannel.bind(this));
 
     }
 
@@ -96,7 +101,7 @@
       if (this.currentDataChannel) {
 
         this.currentDataChannel.destroy();
-        this.currentDataChannel = undefined;
+        this.currentDataChannel = null;
 
       }
 
@@ -112,6 +117,7 @@
 
       dataChannel.on('message', (msg: string) => {
 
+        debugger;
         this.messages.push(msg);
 
       });
@@ -120,11 +126,11 @@
 
     sendMessage() {
 
-      debugger;
-
       if (this.currentDataChannel) {
 
         this.currentDataChannel.send(this.myMessage);
+        this.messages.push(this.myMessage);
+        this.myMessage = '';
 
       }
 

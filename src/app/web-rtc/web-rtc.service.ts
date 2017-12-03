@@ -24,12 +24,13 @@ export class WebRtcService extends EventEmitter {
       .login(alias)
       .then(() => {
 
-        this.peerConnectionService.init();
         this.peerConnectionService.on('connection', (peerConnection: PeerConnection) => {
 
           peerConnection.on('data', (dataChannel: DataChannel) => this.emit('data', dataChannel));
 
         });
+
+        this.peerConnectionService.init();
 
       });
 

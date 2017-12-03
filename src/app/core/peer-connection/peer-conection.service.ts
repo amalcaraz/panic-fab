@@ -59,6 +59,7 @@ export class PeerConnectionService
 
       if (accepted) {
 
+        debugger;
         const peerConnection = new PeerConnection(this.signalingChannel);
         this.emit('connection', peerConnection);
 

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 
-import { Timer } from '@/app/timer/timer.model';
+import { Timer } from '@/app/game/timer/timer.model';
 
 @Component
 export default class TimerComponent extends Vue {

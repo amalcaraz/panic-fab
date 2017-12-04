@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
-import { IMenuItem } from '@/app/menu/menu.model';
+import { IMenuItem } from '@/app/game/menu/menu.model';
 
 @Component
 export default class MenuComponent extends Vue {

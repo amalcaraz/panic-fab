@@ -12,10 +12,10 @@ import {
   FabType,
   MutationRoomCard,
   MutationRoomType
-} from '@/app/card/card.model';
-import { ColorDice, Dice, FabDice, PatternDice, ShapeDice } from '@/app/dice/dice.model';
+} from '@/app/game/card/card.model';
+import { ColorDice, Dice, FabDice, PatternDice, ShapeDice } from '@/app/game/dice/dice.model';
 import { getEnumKeys } from '@/app/utils';
-import { Timer } from '@/app/timer/timer.model';
+import { Timer } from '@/app/game/timer/timer.model';
 
 export enum GameState {
   Finished,

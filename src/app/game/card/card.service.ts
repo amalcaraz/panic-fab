@@ -10,7 +10,7 @@ import {
   FabType,
   MutationRoomCard,
   MutationRoomType
-} from '@/app/card/card.model';
+} from '@/app/game/card/card.model';
 import { getCombinations, getEnumKeys, getEnumValues } from '@/app/utils';
 
 export class CardService {

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IPeerData } from "./peer-list.model";
+import { IPeerData } from './peer-list.model';
 
 @Component
 export default class PeerListComponent extends Vue {

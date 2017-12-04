@@ -1,4 +1,4 @@
-import { ColorDice, Dice, FabDice, PatternDice, ShapeDice } from '@/app/dice/dice.model';
+import { ColorDice, Dice, FabDice, PatternDice, ShapeDice } from '@/app/game/dice/dice.model';
 
 export class DiceService {
 

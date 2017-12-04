@@ -47,13 +47,13 @@
   import Vue from 'vue'
   import { Component, Inject } from 'vue-property-decorator'
   import { Game, GameState } from './game.model'
-  import { CardService } from '../card/card.service'
-  import { DiceService } from '../dice/dice.service'
+  import { CardService } from './card/card.service'
+  import { DiceService } from './dice/dice.service'
   import { GameService } from './game.service'
-  import { Card } from '../card/card.model'
-  import { Timer } from '../timer/timer.model'
-  import { WebRtcService } from "../web-rtc/web-rtc.service";
-  import { IPeerData } from "../peer-list/peer-list.model";
+  import { Card } from './card/card.model'
+  import { Timer } from './timer/timer.model'
+  import { WebRtcService } from "./web-rtc/web-rtc.service";
+  import { IPeerData } from "./peer-list/peer-list.model";
   import { DataChannel } from "../core/peer-connection/data-channel";
 
   @Component

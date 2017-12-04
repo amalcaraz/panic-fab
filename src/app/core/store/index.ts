@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import userModule from './modules/user.module';
 import config from 'config';
+import userModule from './modules/user.module';
 import { MODULE_NAME } from './modules/user.mutation-types';
 
 Vue.use(Vuex);

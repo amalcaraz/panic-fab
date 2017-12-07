@@ -10,7 +10,7 @@
 
     <div v-if="thereIsDataChannel">
       <h5>Chat P2P:</h5>
-      <p v-for="message in messages">
+      <p v-for="(message, index) in messages" :key="index">
         {{message}}
       </p>
       <input type="text" v-model="myMessage" @keyup.enter="sendMessage()"/>

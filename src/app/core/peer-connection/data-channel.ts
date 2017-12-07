@@ -6,9 +6,8 @@ export interface IDataChannelClass extends IConstructor<DataChannel> {
 }
 
 export type DataChannelEventType = 'open' | 'message';
-export type DataChannelEventPayload = string | void;
 
-export class DataChannel extends EventEmitter<DataChannelEventType, DataChannelEventPayload> {
+export class DataChannel extends EventEmitter<DataChannelEventType> {
 
   public static createDataChannel(rtcDataChannel?: RTCDataChannel, id?: string, pc?: RTCPeerConnection): DataChannel {
 

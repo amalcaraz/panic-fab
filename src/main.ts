@@ -1,7 +1,8 @@
 import 'tslib';
 import Vue from 'vue';
+
 import App from './app/app.component.vue';
-import router from './app/router/index';
+import router from './app/core/router/index';
 import store from './app/core/store/index';
 
 Vue.config.productionTip = false;

@@ -1,9 +1,9 @@
 <template>
   <v-card light>
-    <v-card-title>Insert your alias</v-card-title>
+    <v-card-title class="headline">Insert your alias</v-card-title>
     <v-card-text>
       <v-form v-model="valid" ref="form" lazy-validation>
-        <v-text-field @click="submit(alias)"
+        <v-text-field @keyup.enter="submit(alias)"
                       label="Alias"
                       v-model="alias"
                       required

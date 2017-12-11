@@ -1,0 +1,27 @@
+@import '../../styles/config/index';
+
+$game-padding: 2rem !default;
+
+button {
+  margin: .5em .5em;
+}
+
+.game {
+
+  // padding: $game-padding 0 $game-padding 200px;
+
+  &__cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &__dices {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $clr-grey-2;
+  }
+}

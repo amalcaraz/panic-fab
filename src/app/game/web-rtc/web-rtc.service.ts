@@ -1,12 +1,15 @@
 import { IPeerData, PeerList } from '@/app/core/peer-connection/peer-list';
 import { SignalingChannel } from '@/app/core/peer-connection/signaling-channel';
-import { SingletonFactory } from '@/app/core/peer-connection/singleton';
+import { SingletonFactory } from '@/app/core/singleton';
 import { PeerConnectionService } from '@/app/core/peer-connection/peer-conection.service';
 import { DataChannel } from '@/app/core/peer-connection/data-channel';
 import { PeerConnection } from '@/app/core/peer-connection/peer-connection';
 import { EventEmitter } from 'events';
 
-export class WebRtcService extends EventEmitter {
+export type WebRtcServiceEventType = 'data-channel';
+export type WebRtcServiceEventPayload = DataChannel;
+
+export class WebRtcService extends EventEmitter<WebRtcServiceEventType, WebRtcServiceEventPayload> {
 
   public peerList: PeerList;
   private signalingChannel: SignalingChannel;
@@ -26,7 +29,7 @@ export class WebRtcService extends EventEmitter {
 
         this.peerConnectionService.on('connection', (peerConnection: PeerConnection) => {
 
-          peerConnection.on('data', (dataChannel: DataChannel) => this.emit('data', dataChannel));
+          peerConnection.on('data-channel', (dataChannel: DataChannel) => this.emit('data-channel', dataChannel));
 
         });
 

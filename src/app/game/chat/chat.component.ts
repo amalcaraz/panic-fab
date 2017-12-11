@@ -1,25 +1,22 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
-import { IPeerData } from './peer-list.model';
+import { Chat } from '@/app/game/chat/chat.model';
 import { getColorFromString, getLetterFromString } from '@/app/utils';
 
 @Component
-export default class PeerListComponent extends Vue {
+export default class ChatComponent extends Vue {
 
-  @Prop()
-  private me: IPeerData;
+  @Prop() public chat: Chat;
 
-  @Prop()
-  private peers: IPeerData[];
+  public sendMessage(message: string) {
 
-  public onSelectedPeer(peer: IPeerData) {
-
-    this.$emit('selectedPeer', peer);
+    this.$emit('message', message);
+    this.chat.sendMessage();
 
   }
 
-   public getColorFromString(str: string): string {
+  public getColorFromString(str: string): string {
 
     return getColorFromString(str);
 

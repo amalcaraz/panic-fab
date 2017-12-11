@@ -2,13 +2,16 @@ import { Module } from 'vuex';
 
 import getters from './user.getters';
 import mutations from './user.mutations';
+import { UserState } from './user.model';
 
 export interface IState {
   alias: string;
+  state: UserState;
 }
 
 export const state: IState = {
-  alias: ''
+  alias: '',
+  state: UserState.FREE
 };
 
 export const MODULE_NAME: string = 'user';

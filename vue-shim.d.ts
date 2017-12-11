@@ -21,3 +21,20 @@ declare module 'events' {
     public on(event: T, fn: (data: P) => any | void): void;
   }
 }
+
+declare module 'vuetify/es5/util/colors' {
+  interface Color {
+    base: string;
+    lighten5: string;
+    lighten4: string;
+    lighten3: string;
+    lighten2: string;
+    lighten1: string;
+    darken1: string;
+    darken2: string;
+    darken3: string;
+    darken4: string;
+  }
+  const colors: {[color: string]: Color}
+  export = colors
+}

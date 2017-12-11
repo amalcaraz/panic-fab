@@ -33,7 +33,7 @@ export interface ISessionDescriptionOutgoingEvent {
   description: RTCSessionDescription;
 }
 
-export type PeerConnectionEventType = 'data' | 'media';
+export type PeerConnectionEventType = 'data-channel' | 'media-connection';
 export type PeerConnectionEventPayload = DataChannel;
 
 export class PeerConnection extends EventEmitter<PeerConnectionEventType, PeerConnectionEventPayload> {
@@ -156,7 +156,7 @@ export class PeerConnection extends EventEmitter<PeerConnectionEventType, PeerCo
 
     const dataChanel: DataChannel = this.CustomDataChannel.createDataChannel(undefined, id, this.pc);
     this.dataChannels.push(dataChanel);
-    this.emit('data', dataChanel);
+    this.emit('data-channel', dataChanel);
 
   }
 
@@ -185,7 +185,7 @@ export class PeerConnection extends EventEmitter<PeerConnectionEventType, PeerCo
     this.dataChannels.push(newDataChannel);
     trace("Remote data channel added:", dataChanelEvent);
 
-    this.emit('data', newDataChannel);
+    this.emit('data-channel', newDataChannel);
     return newDataChannel;
 
   }

@@ -9,6 +9,9 @@ export interface ISignalingSocketConf {
   namespace: string;
 }
 
+export type SignAlignEventTypes =
+  'connect' | 'login' | 'logout' | 'new-peer' | 'peer-disconnected' | 'peer-list' | 'ice-candidate' | 'sdp';
+
 export class SignalingChannel {
 
   private socket: SocketIOClient.Socket;
@@ -33,21 +36,21 @@ export class SignalingChannel {
 
   }
 
-  public on(event: string, fn: (event: any) => void): this {
+  public on(event: SignAlignEventTypes, fn: (event: any) => void): this {
 
     this.socket.on(event, fn);
     return this;
 
   }
 
-  public off(event: string, fn?: (event: any) => void): this {
+  public off(event: SignAlignEventTypes, fn?: (event: any) => void): this {
 
     this.socket.off(event, fn);
     return this;
 
   }
 
-  public emit(event: string, ...args: any[]): this {
+  public emit(event: SignAlignEventTypes, ...args: any[]): this {
 
     this.socket.emit(event, ...args);
     return this;

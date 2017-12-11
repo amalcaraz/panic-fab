@@ -16,6 +16,7 @@ export class PeerConnectionService
   extends EventEmitter<PeerConnectionServiceEventType, PeerConnectionServiceEventPayload> {
 
   private pcs: Map<string, PeerConnection> = new Map();
+  private inited: boolean = false;
 
   constructor(private signalingChannel: SignalingChannel) {
     super();
@@ -25,12 +26,14 @@ export class PeerConnectionService
 
     // SessionDescription received
     this.signalingChannel.on('sdp', (data: ISessionDescriptionIncomingEvent) => this.onRemoteSessionDescription(data));
+    this.inited = true;
 
   }
 
   public destroy() {
 
     this.pcs.forEach((pc: PeerConnection) => pc.destroy());
+    this.inited = false;
 
   }
 
@@ -41,7 +44,7 @@ export class PeerConnectionService
       const peerConnection = new PeerConnection(this.signalingChannel);
       this.pcs.set(to.alias, peerConnection);
 
-      peerConnection.on('data', (dataChannel: DataChannel) => resolve(dataChannel));
+      peerConnection.on('data-channel', (dataChannel: DataChannel) => resolve(dataChannel));
       peerConnection.initConnection(to, PeerConnectionType.Data);
 
     });

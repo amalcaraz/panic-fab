@@ -82,7 +82,6 @@ export class DataChannel extends EventEmitter<DataChannelEventType> {
   private onDataChannelOpen() {
 
     trace(`The Data Channel ${this.rtcDataChannel.id} is Open`);
-    this.send('Hello mate!');
     this.emit('open');
 
   }
